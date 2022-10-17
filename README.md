@@ -1,3 +1,7 @@
+[![Django-app workflow](https://github.com/DarkSou1/yamdb_final/actions/workflows/yamdb_workflow.yaml/badge.svg)](https://github.com/DarkSou1/yamdb_final/actions/workflows/yamdb_workflow.yaml)
+
+### ip_address http://178.154.201.74/ 
+
 # yamdb
 Проект развернут по адресу: http://localhost:8000/redoc/
 https://github.com/Lara_croft/yamdb_final/a
