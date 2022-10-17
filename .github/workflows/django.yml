@@ -47,6 +47,7 @@ jobs:
           tags: lord007yaoi/yamdb_final:latest
           context: ./api_yamdb
 
+
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
@@ -59,9 +60,9 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull mote21/yamdb_final
+            sudo docker pull lord007yaoi/yamdb_final
             sudo docker stop $(sudo docker ps -a -q)
-            sudo docker run --rm -d -p 5000:5000 mote21/yamdb_final
+            sudo docker run --rm -d -p 5000:5000 /yamdb_final
 
   send_message:
     runs-on: ubuntu-latest
