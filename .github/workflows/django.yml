@@ -58,7 +58,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          key: ${{ secrets.Mak_key }}
+          key: ${{ secrets.SHH_KEY }}
           script: |
             sudo docker pull lord007yaoi/yamdb_final
             sudo docker stop $(sudo docker ps -a -q)
