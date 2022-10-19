@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
   build_and_push_to_docker_hub:
 
     name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: tests
     steps:
       - name: Check out the repo
@@ -44,24 +44,20 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: mote21/yamdb_final:latest
-          context: ./api_yamdb/infra/Dockerfile
-
+          tags: lord007yaoi/yamdb_final:latest
+          context: ./api_yamdb
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/master'
     steps:
       - name: executing remote ssh commands to deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            sudo docker pull mote21/yamdb_final
-            sudo docker stop $(sudo docker ps -a -q)
-            sudo docker run --rm -d -p 5000:5000 mote21/yamdb_final
+        run: |
+          cd infra
+          docker-compose up -d
+          docker-compose exec web python manage.py migrate
+          docker-compose exec web python manage.py collectstatic --no-input
+
 
   send_message:
     runs-on: ubuntu-latest

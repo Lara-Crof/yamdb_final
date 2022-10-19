@@ -54,12 +54,15 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - name: executing remote ssh commands to deploy
-        run: |
-          cd infra
-          docker-compose up -d
-          docker-compose exec web python manage.py migrate
-          docker-compose exec web python manage.py collectstatic --no-input
-
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SHH_KEY }}
+          script: |
+            sudo docker pull lord007yaoi/yamdb_final
+            sudo docker stop $(sudo docker ps -a -q)||true
+            sudo docker run --rm -d -p 5000:5000 lord007yaoi/yamdb_final
 
   send_message:
     runs-on: ubuntu-latest
