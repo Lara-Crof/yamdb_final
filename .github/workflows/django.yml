@@ -6,7 +6,7 @@ on: [push]
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
   build_and_push_to_docker_hub:
 
     name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: tests
     steps:
       - name: Check out the repo
@@ -49,7 +49,7 @@ jobs:
           tags: lord007yaoi/yamdb_final:latest
           context: ./api_yamdb
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/master'
     steps:
