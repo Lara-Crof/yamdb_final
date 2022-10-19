@@ -1,4 +1,5 @@
 
+
 name: Django-app workflow
 
 on: [push]
@@ -47,7 +48,6 @@ jobs:
           push: true
           tags: lord007yaoi/yamdb_final:latest
           context: ./api_yamdb
-
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
@@ -59,6 +59,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SHH_KEY }}
+          passphrase:{secrets.SSH_PASSPHRASE}
           script: |
             sudo docker pull lord007yaoi/yamdb_final
             sudo docker stop $(sudo docker ps -a -q)
